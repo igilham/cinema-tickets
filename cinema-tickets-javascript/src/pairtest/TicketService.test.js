@@ -35,6 +35,8 @@ describe("TicketService", () => {
     ).not.toThrow();
     expect(makePaymentSpy).toHaveBeenCalledTimes(1);
     expect(makePaymentSpy).toHaveBeenCalledWith(1, 20 * 100);
+    expect(reserveSeatSpy).toHaveBeenCalledTimes(1);
+    expect(reserveSeatSpy).toHaveBeenCalledWith(1, 1);
   });
 
   test("should accept an adult with a child", () => {
@@ -47,6 +49,8 @@ describe("TicketService", () => {
     ).not.toThrow();
     expect(makePaymentSpy).toHaveBeenCalledTimes(1);
     expect(makePaymentSpy).toHaveBeenCalledWith(1, 30 * 100);
+    expect(reserveSeatSpy).toHaveBeenCalledTimes(1);
+    expect(reserveSeatSpy).toHaveBeenCalledWith(1, 2);
   });
 
   test("should accept an adult with an infant", () => {
@@ -59,6 +63,8 @@ describe("TicketService", () => {
     ).not.toThrow();
     expect(makePaymentSpy).toHaveBeenCalledTimes(1);
     expect(makePaymentSpy).toHaveBeenCalledWith(1, 20 * 100);
+    expect(reserveSeatSpy).toHaveBeenCalledTimes(1);
+    expect(reserveSeatSpy).toHaveBeenCalledWith(1, 1);
   });
 
   test("should accept an adult with a child and an infant", () => {
@@ -70,6 +76,10 @@ describe("TicketService", () => {
         new TicketTypeRequest("INFANT", 1)
       )
     ).not.toThrow();
+    expect(makePaymentSpy).toHaveBeenCalledTimes(1);
+    expect(makePaymentSpy).toHaveBeenCalledWith(1, 30 * 100);
+    expect(reserveSeatSpy).toHaveBeenCalledTimes(1);
+    expect(reserveSeatSpy).toHaveBeenCalledWith(1, 2);
   });
 
   test.each([-235123563, -1, 0, "hello"])(
@@ -80,6 +90,7 @@ describe("TicketService", () => {
         new InvalidPurchaseException("Invalid account ID")
       );
       expect(makePaymentSpy).not.toHaveBeenCalled();
+      expect(reserveSeatSpy).not.toHaveBeenCalled();
     }
   );
 
@@ -90,6 +101,7 @@ describe("TicketService", () => {
       new InvalidPurchaseException("Too many tickets")
     );
     expect(makePaymentSpy).not.toHaveBeenCalled();
+    expect(reserveSeatSpy).not.toHaveBeenCalled();
   });
 
   test("should reject purchase of more than 20 tickets across multiple requests", () => {
@@ -103,6 +115,7 @@ describe("TicketService", () => {
       new InvalidPurchaseException("Too many tickets")
     );
     expect(makePaymentSpy).not.toHaveBeenCalled();
+    expect(reserveSeatSpy).not.toHaveBeenCalled();
   });
 
   test("should reject purchase of child tickets without an adult", () => {
@@ -114,6 +127,7 @@ describe("TicketService", () => {
       )
     );
     expect(makePaymentSpy).not.toHaveBeenCalled();
+    expect(reserveSeatSpy).not.toHaveBeenCalled();
   });
 
   test("should reject purchase of infant tickets without an adult", () => {
@@ -125,5 +139,6 @@ describe("TicketService", () => {
       )
     );
     expect(makePaymentSpy).not.toHaveBeenCalled();
+    expect(reserveSeatSpy).not.toHaveBeenCalled();
   });
 });

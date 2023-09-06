@@ -40,6 +40,9 @@ export default class TicketService {
 
     const totalCost = this.#calculateTotalCost(groupedTickets);
     this.#paymentService.makePayment(accountId, totalCost);
+
+    const seats = this.#calculateTotalSeats(groupedTickets);
+    this.#seatReservationService.reserveSeat(accountId, seats);
   }
 
   /**
@@ -72,6 +75,16 @@ export default class TicketService {
     const childCost = groupedTickets.CHILD * 10 * 100;
     const infantCost = groupedTickets.INFANT * 0 * 100;
     return adultCost + childCost + infantCost;
+  }
+
+  /**
+   * Calculate the total number of seats required. Infants
+   * do not require a seat.
+   * @param {import('./lib/types.js').GroupedTickets} groupedTickets
+   * @returns {number}
+   */
+  #calculateTotalSeats(groupedTickets) {
+    return groupedTickets.ADULT + groupedTickets.CHILD;
   }
 
   /**
