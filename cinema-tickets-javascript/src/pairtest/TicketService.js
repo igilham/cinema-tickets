@@ -1,5 +1,16 @@
 import TicketTypeRequest from "./lib/TicketTypeRequest.js";
 import InvalidPurchaseException from "./lib/InvalidPurchaseException.js";
+import {
+  validateAccountId,
+  validateMaximumTickets,
+} from "./lib/validations.js";
+
+/**
+ * @typedef {Object} GroupedTickets
+ * @property {!number} ADULT
+ * @property {!number} CHILD
+ * @property {!number} INFANT
+ */
 
 export default class TicketService {
   /**
@@ -17,26 +28,12 @@ export default class TicketService {
   }
 
   /**
-   * Validate ticket purchase
-   * @param {!number} accountId
+   *
    * @param  {...TicketTypeRequest} ticketTypeRequests
-   * @throws {InvalidPurchaseException} if the purchase is invalid
+   * @returns {GroupedTickets}
    */
-  #validatePurchase(accountId, ...ticketTypeRequests) {
-    if (!Number.isInteger(accountId) || accountId <= 0) {
-      throw new InvalidPurchaseException("Invalid account ID");
-    }
-
-    const sumTickets = ticketTypeRequests.reduce(
-      (acc, req) => acc + req.getNoOfTickets(),
-      0
-    );
-
-    if (sumTickets > 20) {
-      throw new InvalidPurchaseException("Too many tickets");
-    }
-
-    const groupedTickets = ticketTypeRequests.reduce(
+  #groupTicketsByType(...ticketTypeRequests) {
+    return ticketTypeRequests.reduce(
       (acc, req) => {
         const type = req.getTicketType();
         acc[type] += req.getNoOfTickets();
@@ -48,6 +45,20 @@ export default class TicketService {
         INFANT: 0,
       }
     );
+  }
+
+  /**
+   * Validate ticket purchase. Validations are run in a fixed
+   * order and only the first failure is reported.
+   * @param {!number} accountId
+   * @param  {...TicketTypeRequest} ticketTypeRequests
+   * @throws {InvalidPurchaseException} if the purchase is invalid
+   */
+  #validatePurchase(accountId, ...ticketTypeRequests) {
+    validateAccountId(accountId);
+    validateMaximumTickets(accountId, ...ticketTypeRequests);
+
+    const groupedTickets = this.#groupTicketsByType(...ticketTypeRequests);
 
     if (groupedTickets.CHILD > 0 && groupedTickets.ADULT === 0) {
       throw new InvalidPurchaseException(
