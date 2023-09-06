@@ -2,7 +2,7 @@
 
 export default class SeatReservationService {
   /**
-   * @param {!string} accountId
+   * @param {!number} accountId
    * @param {!number} totalSeatsToAllocate
    */
   reserveSeat(accountId, totalSeatsToAllocate) {

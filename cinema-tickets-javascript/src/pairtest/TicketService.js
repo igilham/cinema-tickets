@@ -8,7 +8,7 @@ export default class TicketService {
 
   /**
    * Purchase tickets
-   * @param {string} accountId
+   * @param {!number} accountId
    * @param  {...TicketTypeRequest} ticketTypeRequests
    * @throws {InvalidPurchaseException} if the purchase is invalid
    */

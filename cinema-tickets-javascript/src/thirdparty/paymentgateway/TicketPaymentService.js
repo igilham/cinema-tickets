@@ -3,7 +3,7 @@
 export default class TicketPaymentService {
   /**
    *
-   * @param {!string} accountId
+   * @param {!number} accountId
    * @param {!number} totalAmountToPay
    */
   makePayment(accountId, totalAmountToPay) {
