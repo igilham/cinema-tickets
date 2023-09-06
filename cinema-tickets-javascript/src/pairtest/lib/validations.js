@@ -4,7 +4,7 @@ import TicketTypeRequest from "./TicketTypeRequest.js";
 /**
  * @param {!number} accountId
  * @param  {TicketTypeRequest[]} _ticketTypeRequests
- * @param {import('../TicketService.js').GroupedTickets} _groupedTickets
+ * @param {import('./types.js').GroupedTickets} _groupedTickets
  */
 export function validateAccountId(
   accountId,
@@ -19,7 +19,7 @@ export function validateAccountId(
 /**
  * @param {!number} _accountId
  * @param  {TicketTypeRequest[]} ticketTypeRequests
- * @param {import('../TicketService.js').GroupedTickets} _groupedTickets
+ * @param {import('./types.js').GroupedTickets} _groupedTickets
  */
 export function validateMaximumTickets(
   _accountId,
@@ -39,7 +39,7 @@ export function validateMaximumTickets(
 /**
  * @param {!number} _accountId
  * @param  {TicketTypeRequest[]} _ticketTypeRequests
- * @param {import('../TicketService.js').GroupedTickets} groupedTickets
+ * @param {import('./types.js').GroupedTickets} groupedTickets
  */
 export function validateChildrenWithAdult(
   _accountId,
@@ -56,7 +56,7 @@ export function validateChildrenWithAdult(
 /**
  * @param {!number} _accountId
  * @param  {TicketTypeRequest[]} _ticketTypeRequests
- * @param {import('../TicketService.js').GroupedTickets} groupedTickets
+ * @param {import('./types.js').GroupedTickets} groupedTickets
  */
 export function validateInfantsWithAdult(
   _accountId,

@@ -7,13 +7,6 @@ import {
   validateInfantsWithAdult,
 } from "./lib/validations.js";
 
-/**
- * @typedef {Object} GroupedTickets
- * @property {!number} ADULT
- * @property {!number} CHILD
- * @property {!number} INFANT
- */
-
 export default class TicketService {
   /**
    * Should only have private methods other than the one below.
@@ -33,7 +26,7 @@ export default class TicketService {
 
   /**
    * @param  {TicketTypeRequest[]} ticketTypeRequests
-   * @returns {GroupedTickets}
+   * @returns {import('./lib/types.js').GroupedTickets}
    */
   #groupTicketsByType(ticketTypeRequests) {
     return ticketTypeRequests.reduce(
@@ -55,7 +48,7 @@ export default class TicketService {
    * order and only the first failure is reported.
    * @param {!number} accountId
    * @param  {TicketTypeRequest[]} ticketTypeRequests
-   * @param {GroupedTickets} groupedTickets
+   * @param {import('./lib/types.js').GroupedTickets} groupedTickets
    * @throws {InvalidPurchaseException} if the purchase is invalid
    * @returns {void}
    */
