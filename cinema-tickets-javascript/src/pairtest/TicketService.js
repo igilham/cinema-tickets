@@ -8,6 +8,21 @@ import {
 } from "./lib/validations.js";
 
 export default class TicketService {
+  /** @const {import('../thirdparty/paymentgateway/TicketPaymentService.js').default} */
+  #paymentService;
+
+  /** @const {import('../thirdparty/seatbooking/SeatReservationService.js').default} */
+  #seatReservationService;
+
+  /**
+   * @param {import('../thirdparty/paymentgateway/TicketPaymentService.js').default} paymentService
+   * @param {import('../thirdparty/seatbooking/SeatReservationService.js').default} seatReservationService
+   */
+  constructor(paymentService, seatReservationService) {
+    this.#paymentService = paymentService;
+    this.#seatReservationService = seatReservationService;
+  }
+
   /**
    * Should only have private methods other than the one below.
    */
@@ -22,6 +37,9 @@ export default class TicketService {
   purchaseTickets(accountId, ...ticketTypeRequests) {
     const groupedTickets = this.#groupTicketsByType(ticketTypeRequests);
     this.#validatePurchase(accountId, ticketTypeRequests, groupedTickets);
+
+    const totalCost = this.#calculateTotalCost(groupedTickets);
+    this.#paymentService.makePayment(accountId, totalCost);
   }
 
   /**
@@ -41,6 +59,19 @@ export default class TicketService {
         INFANT: 0,
       }
     );
+  }
+
+  /**
+   * Calculate the total cost of the tickets in pence
+   * @param {import('./lib/types.js').GroupedTickets} groupedTickets
+   * @returns {number}
+   */
+  #calculateTotalCost(groupedTickets) {
+    // TODO: move actual costs to a pricing service
+    const adultCost = groupedTickets.ADULT * 20 * 100;
+    const childCost = groupedTickets.CHILD * 10 * 100;
+    const infantCost = groupedTickets.INFANT * 0 * 100;
+    return adultCost + childCost + infantCost;
   }
 
   /**

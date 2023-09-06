@@ -11,6 +11,7 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "devDependencies": {
+    "@jest/globals": "^29.6.4",
     "@tsconfig/node18": "^18.2.1",
     "@types/jest": "^29.5.4",
     "@types/node": "^20.5.9",
