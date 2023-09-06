@@ -21,7 +21,7 @@ describe("TicketService", () => {
     (id) => {
       // @ts-ignore - testing invalid input types
       expect(() => ticketService.purchaseTickets(id)).toThrow(
-        InvalidPurchaseException
+        new InvalidPurchaseException("Invalid account ID")
       );
     }
   );
