@@ -16,5 +16,14 @@ export default class TicketService {
     if (!Number.isInteger(accountId) || accountId <= 0) {
       throw new InvalidPurchaseException("Invalid account ID");
     }
+
+    const sumTickets = ticketTypeRequests.reduce(
+      (acc, req) => acc + req.getNoOfTickets(),
+      0
+    );
+
+    if (sumTickets > 20) {
+      throw new InvalidPurchaseException("Too many tickets");
+    }
   }
 }

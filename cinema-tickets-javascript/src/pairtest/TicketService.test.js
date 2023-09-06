@@ -25,4 +25,24 @@ describe("TicketService", () => {
       );
     }
   );
+
+  test("should reject purchase of more than 20 tickets in a single request", () => {
+    const requests = [new TicketTypeRequest("ADULT", 21)];
+
+    expect(() => ticketService.purchaseTickets(1, ...requests)).toThrow(
+      new InvalidPurchaseException("Too many tickets")
+    );
+  });
+
+  test("should reject purchase of more than 20 tickets across multiple requests", () => {
+    const requests = [
+      new TicketTypeRequest("ADULT", 10),
+      new TicketTypeRequest("CHILD", 10),
+      new TicketTypeRequest("INFANT", 1),
+    ];
+
+    expect(() => ticketService.purchaseTickets(1, ...requests)).toThrow(
+      new InvalidPurchaseException("Too many tickets")
+    );
+  });
 });
