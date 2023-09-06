@@ -3,6 +3,8 @@ import InvalidPurchaseException from "./lib/InvalidPurchaseException.js";
 import {
   validateAccountId,
   validateMaximumTickets,
+  validateChildrenWithAdult,
+  validateInfantsWithAdult,
 } from "./lib/validations.js";
 
 /**
@@ -58,19 +60,9 @@ export default class TicketService {
    * @returns {void}
    */
   #validatePurchase(accountId, ticketTypeRequests, groupedTickets) {
-    validateAccountId(accountId, ticketTypeRequests);
-    validateMaximumTickets(accountId, ticketTypeRequests);
-
-    if (groupedTickets.CHILD > 0 && groupedTickets.ADULT === 0) {
-      throw new InvalidPurchaseException(
-        "Child tickets must be purchased with an adult ticket"
-      );
-    }
-
-    if (groupedTickets.INFANT > 0 && groupedTickets.ADULT === 0) {
-      throw new InvalidPurchaseException(
-        "Infant tickets must be purchased with an adult ticket"
-      );
-    }
+    validateAccountId(accountId, ticketTypeRequests, groupedTickets);
+    validateMaximumTickets(accountId, ticketTypeRequests, groupedTickets);
+    validateChildrenWithAdult(accountId, ticketTypeRequests, groupedTickets);
+    validateInfantsWithAdult(accountId, ticketTypeRequests, groupedTickets);
   }
 }
