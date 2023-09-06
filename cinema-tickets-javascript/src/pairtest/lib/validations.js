@@ -3,9 +3,9 @@ import TicketTypeRequest from "./TicketTypeRequest.js";
 
 /**
  * @param {!number} accountId
- * @param  {...TicketTypeRequest} _ticketTypeRequests
+ * @param  {TicketTypeRequest[]} _ticketTypeRequests
  */
-export function validateAccountId(accountId, ..._ticketTypeRequests) {
+export function validateAccountId(accountId, _ticketTypeRequests) {
   if (!Number.isInteger(accountId) || accountId <= 0) {
     throw new InvalidPurchaseException("Invalid account ID");
   }
@@ -13,9 +13,9 @@ export function validateAccountId(accountId, ..._ticketTypeRequests) {
 
 /**
  * @param {!number} _accountId
- * @param  {...TicketTypeRequest} ticketTypeRequests
+ * @param  {TicketTypeRequest[]} ticketTypeRequests
  */
-export function validateMaximumTickets(_accountId, ...ticketTypeRequests) {
+export function validateMaximumTickets(_accountId, ticketTypeRequests) {
   const sumTickets = ticketTypeRequests.reduce(
     (acc, req) => acc + req.getNoOfTickets(),
     0

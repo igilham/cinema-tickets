@@ -24,15 +24,16 @@ export default class TicketService {
    * @throws {InvalidPurchaseException} if the purchase is invalid
    */
   purchaseTickets(accountId, ...ticketTypeRequests) {
-    this.#validatePurchase(accountId, ...ticketTypeRequests);
+    const groupedTickets = this.#groupTicketsByType(ticketTypeRequests);
+    this.#validatePurchase(accountId, ticketTypeRequests, groupedTickets);
   }
 
   /**
    *
-   * @param  {...TicketTypeRequest} ticketTypeRequests
+   * @param  {TicketTypeRequest[]} ticketTypeRequests
    * @returns {GroupedTickets}
    */
-  #groupTicketsByType(...ticketTypeRequests) {
+  #groupTicketsByType(ticketTypeRequests) {
     return ticketTypeRequests.reduce(
       (acc, req) => {
         const type = req.getTicketType();
@@ -51,14 +52,14 @@ export default class TicketService {
    * Validate ticket purchase. Validations are run in a fixed
    * order and only the first failure is reported.
    * @param {!number} accountId
-   * @param  {...TicketTypeRequest} ticketTypeRequests
+   * @param  {TicketTypeRequest[]} ticketTypeRequests
+   * @param {GroupedTickets} groupedTickets
    * @throws {InvalidPurchaseException} if the purchase is invalid
+   * @returns {void}
    */
-  #validatePurchase(accountId, ...ticketTypeRequests) {
-    validateAccountId(accountId);
-    validateMaximumTickets(accountId, ...ticketTypeRequests);
-
-    const groupedTickets = this.#groupTicketsByType(...ticketTypeRequests);
+  #validatePurchase(accountId, ticketTypeRequests, groupedTickets) {
+    validateAccountId(accountId, ticketTypeRequests);
+    validateMaximumTickets(accountId, ticketTypeRequests);
 
     if (groupedTickets.CHILD > 0 && groupedTickets.ADULT === 0) {
       throw new InvalidPurchaseException(
