@@ -6,10 +6,16 @@
  * Immutable Object.
  */
 export default class TicketTypeRequest {
-  /**  @const {!TicketType} */
+  /**
+   * @const {!TicketType}
+   * @readonly
+   */
   #type;
 
-  /**@const {!number} */
+  /**
+   * @const {!number}
+   * @readonly
+   */
   #noOfTickets;
 
   /**

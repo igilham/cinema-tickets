@@ -8,13 +8,22 @@ import {
 } from "./lib/validations.js";
 
 export default class TicketService {
-  /** @const {import('../thirdparty/paymentgateway/TicketPaymentService.js').default} */
+  /**
+   * @const {import('../thirdparty/paymentgateway/TicketPaymentService.js').default}
+   * @readonly
+   */
   #paymentService;
 
-  /** @const {import('../thirdparty/seatbooking/SeatReservationService.js').default} */
+  /**
+   * @const {import('../thirdparty/seatbooking/SeatReservationService.js').default}
+   * @readonly
+   */
   #seatReservationService;
 
-  /** @const {import('./lib/TicketPricingService.js').default} */
+  /**
+   * @const {import('./lib/TicketPricingService.js').default}
+   * @readonly
+   */
   #ticketPricingService;
 
   /**
