@@ -13,6 +13,16 @@ export default class TicketService {
    * @throws {InvalidPurchaseException} if the purchase is invalid
    */
   purchaseTickets(accountId, ...ticketTypeRequests) {
+    this.#validatePurchase(accountId, ...ticketTypeRequests);
+  }
+
+  /**
+   * Validate ticket purchase
+   * @param {!number} accountId
+   * @param  {...TicketTypeRequest} ticketTypeRequests
+   * @throws {InvalidPurchaseException} if the purchase is invalid
+   */
+  #validatePurchase(accountId, ...ticketTypeRequests) {
     if (!Number.isInteger(accountId) || accountId <= 0) {
       throw new InvalidPurchaseException("Invalid account ID");
     }
