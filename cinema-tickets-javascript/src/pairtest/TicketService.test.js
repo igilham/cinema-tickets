@@ -76,4 +76,14 @@ describe("TicketService", () => {
       new InvalidPurchaseException("Too many tickets")
     );
   });
+
+  test("should reject purchase of child tickets without an adult", () => {
+    const requests = [new TicketTypeRequest("CHILD", 1)];
+
+    expect(() => ticketService.purchaseTickets(1, ...requests)).toThrow(
+      new InvalidPurchaseException(
+        "Child tickets must be purchased with an adult ticket"
+      )
+    );
+  });
 });

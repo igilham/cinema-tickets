@@ -25,5 +25,24 @@ export default class TicketService {
     if (sumTickets > 20) {
       throw new InvalidPurchaseException("Too many tickets");
     }
+
+    const groupedTickets = ticketTypeRequests.reduce(
+      (acc, req) => {
+        const type = req.getTicketType();
+        acc[type] += req.getNoOfTickets();
+        return acc;
+      },
+      {
+        ADULT: 0,
+        CHILD: 0,
+        INFANT: 0,
+      }
+    );
+
+    if (groupedTickets.CHILD > 0 && groupedTickets.ADULT === 0) {
+      throw new InvalidPurchaseException(
+        "Child tickets must be purchased with an adult ticket"
+      );
+    }
   }
 }
