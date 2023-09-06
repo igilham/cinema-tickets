@@ -16,6 +16,37 @@ describe("TicketService", () => {
     ).not.toThrow();
   });
 
+  test("should accept an adult with a child", () => {
+    expect(() =>
+      ticketService.purchaseTickets(
+        1,
+        new TicketTypeRequest("ADULT", 1),
+        new TicketTypeRequest("CHILD", 1)
+      )
+    ).not.toThrow();
+  });
+
+  test("should accept an adult with an infant", () => {
+    expect(() =>
+      ticketService.purchaseTickets(
+        1,
+        new TicketTypeRequest("ADULT", 1),
+        new TicketTypeRequest("INFANT", 1)
+      )
+    ).not.toThrow();
+  });
+
+  test("should accept an adult with a child and an infant", () => {
+    expect(() =>
+      ticketService.purchaseTickets(
+        1,
+        new TicketTypeRequest("ADULT", 1),
+        new TicketTypeRequest("CHILD", 1),
+        new TicketTypeRequest("INFANT", 1)
+      )
+    ).not.toThrow();
+  });
+
   test.each([-235123563, -1, 0, "hello"])(
     "should reject purchse with invalid account ID %s",
     (id) => {
