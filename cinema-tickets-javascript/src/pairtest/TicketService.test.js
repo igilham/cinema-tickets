@@ -86,4 +86,14 @@ describe("TicketService", () => {
       )
     );
   });
+
+  test("should reject purchase of infant tickets without an adult", () => {
+    const requests = [new TicketTypeRequest("INFANT", 1)];
+
+    expect(() => ticketService.purchaseTickets(1, ...requests)).toThrow(
+      new InvalidPurchaseException(
+        "Infant tickets must be purchased with an adult ticket"
+      )
+    );
+  });
 });

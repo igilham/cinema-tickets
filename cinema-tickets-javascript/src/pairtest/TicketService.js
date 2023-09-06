@@ -44,5 +44,11 @@ export default class TicketService {
         "Child tickets must be purchased with an adult ticket"
       );
     }
+
+    if (groupedTickets.INFANT > 0 && groupedTickets.ADULT === 0) {
+      throw new InvalidPurchaseException(
+        "Infant tickets must be purchased with an adult ticket"
+      );
+    }
   }
 }
