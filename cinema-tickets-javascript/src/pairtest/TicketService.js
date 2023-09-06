@@ -22,6 +22,7 @@ export default class TicketService {
    * @param {!number} accountId
    * @param  {...TicketTypeRequest} ticketTypeRequests
    * @throws {InvalidPurchaseException} if the purchase is invalid
+   * @returns {void}
    */
   purchaseTickets(accountId, ...ticketTypeRequests) {
     const groupedTickets = this.#groupTicketsByType(ticketTypeRequests);
@@ -29,7 +30,6 @@ export default class TicketService {
   }
 
   /**
-   *
    * @param  {TicketTypeRequest[]} ticketTypeRequests
    * @returns {GroupedTickets}
    */
