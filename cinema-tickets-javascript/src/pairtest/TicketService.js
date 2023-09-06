@@ -13,6 +13,6 @@ export default class TicketService {
    * @throws {InvalidPurchaseException} if the purchase is invalid
    */
   purchaseTickets(accountId, ...ticketTypeRequests) {
-    // throws InvalidPurchaseException
+    throw new InvalidPurchaseException("Invalid purchase");
   }
 }
