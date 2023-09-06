@@ -4,6 +4,7 @@ import SeatReservationService from "../thirdparty/seatbooking/SeatReservationSer
 import TicketService from "./TicketService.js";
 import InvalidPurchaseException from "./lib/InvalidPurchaseException.js";
 import TicketTypeRequest from "./lib/TicketTypeRequest.js";
+import TicketPricingService from "./lib/TicketPricingService.js";
 
 describe("TicketService", () => {
   /** @type {TicketService} */
@@ -19,7 +20,12 @@ describe("TicketService", () => {
     // use the stub classes provided
     const paymentService = new TicketPaymentService();
     const seatReservationService = new SeatReservationService();
-    ticketService = new TicketService(paymentService, seatReservationService);
+    const ticketPricingService = new TicketPricingService();
+    ticketService = new TicketService(
+      paymentService,
+      seatReservationService,
+      ticketPricingService
+    );
 
     makePaymentSpy = jest.spyOn(paymentService, "makePayment");
     reserveSeatSpy = jest.spyOn(seatReservationService, "reserveSeat");
